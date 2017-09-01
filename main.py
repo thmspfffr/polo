@@ -6,7 +6,7 @@ from ftplib import FTP
 
 API = 'O1O0O76T-Z2M0ZOQM-15NPVFG0-AUKH3WKH'
 SEC = 'c12cfb5fa7bb7506e190ed7b0a48a864eb2179f4ddc8793321b75154752325c77f472b98abc756cc390d37c553c0ffd5bed88dbe247f2bb41af5c641cc1408eb'
-# RANDOM COMMENT
+# RANDOM 
 while True:
     try:
         print "Receiving data from exchanges ..."
