@@ -3,15 +3,27 @@ import numpy as np
 from bittrex import bittrex
 import time
 from ftplib import FTP
+from plot import poloplot
 
+all_my_coins = []
+
+# reads in rates at which coins where purchased (in BTC)
+# todo: read this number from exchanges
+all_my_rates = {}
+with open("allmyrates.txt") as f:
+    for line in f:
+       (key, val) = line.split()
+       all_my_rates[key] = val
+
+# read this from text file
 API = 'W7N7KE0K-86M9X81P-O63WFUJ0-V80HZVHM'
 SEC = '477388e772d45639e79495cd183ecc8c15d7d411162a5645c1f4eaee8bf8940a40bd842bf6388a384c27af953f4e3de0a4a26b87c9bb15f8a5cf3ba975c3ef3d'
-# RANDOM T
+
 while True:
     #try:
     print('Receiving data from exchanges ...')
     
-    # CONNECT TO BITTREX
+    # connect to bittrex
     bittrex_ticker = bittrex('98db5347b4294f4eb85c3c3fc4169d50','6eb9fd8ee7304e209474a7bced944cec')
     myBittrexBalance = bittrex_ticker.getbalances()
     totalBittrexUSDT = 0
@@ -20,6 +32,12 @@ while True:
 
         currentCoin = myBittrexBalance[i]
         coinname = str(currentCoin['Currency'])
+
+        current_rate = float(all_my_rates[coinname])
+
+        if currentCoin['Balance'] > 5:
+
+            all_my_coins.append(coinname)
 
         if coinname == 'BTC':
 
@@ -45,14 +63,16 @@ while True:
         totalBittrexUSDT =  totalBittrexUSDT + currentValueInUSDT
 
     # CONNECT TO POLONIEX
-    btc_ticker = poloniex.Poloniex(API, SEC)
 
     balances = btc_ticker.returnBalances()
     prices = btc_ticker.returnTicker()
 
     b = [float(x) for x in balances.values()]
-    IDX = [x for x, i in enumerate(b) if i > 0]
+    IDX = [x for x, i in enumerate(b) if i > 5]
     myCoins =  [balances.keys()[index] for index in IDX]
+
+    all_my_coins.extend(myCoins)
+    btc_ticker = poloniex.Poloniex(API, SEC)
 
     def getPrice(coinname, balances, prices):
     #def getPrice(coinname, balances, prices):	
@@ -100,6 +120,8 @@ while True:
     f.write('%d \t %d\n' % (int(time.time()), totalValue))
     f.close()
 
+    np.savetxt('allmycoins.txt',np.array(all_my_coins),delimiter='\n',fmt = '%s')
+
     allTimeCryptoBalance = np.loadtxt('allTimeCryptoBalance.txt')
     timeDiff = np.loadtxt('allTimeCryptoBalance.txt')[-2]-np.loadtxt('allTimeCryptoBalance.txt')[0]
 
@@ -119,6 +141,9 @@ while True:
     ftp.storbinary('STOR blc.txt', fileToSend)  
     fileToSend.close()                                    
     ftp.quit() 
+
+    # create plot
+    poloplot()
 
     time.sleep(60)
     #except:
