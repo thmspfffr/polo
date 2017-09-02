@@ -33,37 +33,37 @@ while True:
         currentCoin = myBittrexBalance[i]
         coinname = str(currentCoin['Currency'])
 
-        current_rate = float(all_my_rates[coinname])
-
         if currentCoin['Balance'] > 5:
 
             all_my_coins.append(coinname)
 
-        if coinname == 'BTC':
+            if coinname == 'BTC':
 
-            currentUSDT = bittrex_ticker.getmarketsummary('USDT-BTC')
-            currentValueBTCUSDT = currentUSDT[0]['Last']
-            currentBalance = bittrex_ticker.getbalance(coinname)['Available']
+                currentUSDT = bittrex_ticker.getmarketsummary('USDT-BTC')
+                currentValueBTCUSDT = currentUSDT[0]['Last']
+                currentBalance = bittrex_ticker.getbalance(coinname)['Available']
 
-            currentValueInUSDT =  currentValueBTCUSDT * currentBalance
+                currentValueInUSDT =  currentValueBTCUSDT * currentBalance
 
-        else:
+            else:
 
-            marketname = 'BTC-%s' % (coinname)
-            currentMarket = bittrex_ticker.getmarketsummary(marketname)
-            currentValueInBTC = currentMarket[0]['Last']
+                marketname = 'BTC-%s' % (coinname)
+                currentMarket = bittrex_ticker.getmarketsummary(marketname)
+                currentValueInBTC = currentMarket[0]['Last']
 
-            currentUSDT = bittrex_ticker.getmarketsummary('USDT-BTC')
-            currentValueBTCUSDT = currentUSDT[0]['Last']
+                currentUSDT = bittrex_ticker.getmarketsummary('USDT-BTC')
+                currentValueBTCUSDT = currentUSDT[0]['Last']
 
-            currentBalance = bittrex_ticker.getbalance(coinname)['Balance']
+                currentBalance = bittrex_ticker.getbalance(coinname)['Balance']
 
-            currentValueInUSDT =  currentValueBTCUSDT * currentValueInBTC * currentBalance
+                currentValueInUSDT =  currentValueBTCUSDT * currentValueInBTC * currentBalance
 
-        totalBittrexUSDT =  totalBittrexUSDT + currentValueInUSDT
+                current_rate = float(all_my_rates[coinname])
+
+            totalBittrexUSDT =  totalBittrexUSDT + currentValueInUSDT
 
     # CONNECT TO POLONIEX
-
+    btc_ticker = poloniex.Poloniex(API, SEC)
     balances = btc_ticker.returnBalances()
     prices = btc_ticker.returnTicker()
 
@@ -72,7 +72,6 @@ while True:
     myCoins =  [balances.keys()[index] for index in IDX]
 
     all_my_coins.extend(myCoins)
-    btc_ticker = poloniex.Poloniex(API, SEC)
 
     def getPrice(coinname, balances, prices):
     #def getPrice(coinname, balances, prices):	
@@ -137,9 +136,9 @@ while True:
     ftp.login('web10','IzULi9HE')
     ftp.cwd('html')
 
-    fileToSend = open('totalCryptoBalance.txt','rb')                  
-    ftp.storbinary('STOR blc.txt', fileToSend)  
-    fileToSend.close()                                    
+    ff = open('totalCryptoBalance.txt','rb')                  
+    ftp.storbinary('STOR blc.txt', ff)  
+    ff.close()                                    
     ftp.quit() 
 
     # create plot
