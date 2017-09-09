@@ -4,6 +4,7 @@ from bittrex import bittrex
 import time
 from ftplib import FTP
 from plot import poloplot
+from coinmarketcap import Market
 
 all_my_coins = []
 
@@ -112,9 +113,13 @@ while True:
 
         totalPoloniexUSDT = tmp
 
-        totalValue = totalPoloniexUSDT + totalBittrexUSDT
+        coinmarketcap = Market()
+        iota_usd = float(coinmarketcap.ticker('IOTA', limit=3, convert='USD')[0]['price_usd'])
+        my_iota_value = 1011 * iota_usd
 
-        totalInvested = 3574
+        totalValue = totalPoloniexUSDT + totalBittrexUSDT + my_iota_value
+
+        totalInvested = 3574 + 601 
 
         totalPercentChange = 100*totalValue/totalInvested-100
 
@@ -130,9 +135,29 @@ while True:
         file = open('totalCryptoBalance.txt', 'w')
         file.write('Total value: %d USD\n' % totalValue) 
         if totalPercentChange > 0:
-            file.write('Total percent change: +%.2f%%' % totalPercentChange) 
+            file.write('Total percent change: +%.2f%%\n\n' % totalPercentChange) 
         else:
-            file.write('Total percent change: %.2f%%' % totalPercentChange) 
+            file.write('Total percent change: %.2f%%\n\n' % totalPercentChange) 
+
+        file.write('ARDR, \t1h: %.2f%% / ' % float(coinmarketcap.ticker('ARDOR', limit=3, convert='USD')[0]['percent_change_1h'])) 
+        file.write('\t1d: %.2f%% / ' % float(coinmarketcap.ticker('ARDOR', limit=3, convert='USD')[0]['percent_change_24h'])) 
+        file.write('\t7d: %.2f%%\n' % float(coinmarketcap.ticker('ARDOR', limit=3, convert='USD')[0]['percent_change_7d'])) 
+
+        file.write('BAT, \t1h: %.2f%% / ' % float(coinmarketcap.ticker('basic-attention-token', limit=3, convert='USD')[0]['percent_change_1h'])) 
+        file.write('\t1d: %.2f%% / ' % float(coinmarketcap.ticker('basic-attention-token', limit=3, convert='USD')[0]['percent_change_24h'])) 
+        file.write('\t7d: %.2f%%\n' % float(coinmarketcap.ticker('basic-attention-token', limit=3, convert='USD')[0]['percent_change_7d'])) 
+
+        file.write('IOTA, \t1h: %.2f%% / ' % float(coinmarketcap.ticker('IOTA', limit=3, convert='USD')[0]['percent_change_1h'])) 
+        file.write('\t1d: %.2f%% / ' % float(coinmarketcap.ticker('IOTA', limit=3, convert='USD')[0]['percent_change_24h'])) 
+        file.write('\t7d: %.2f%%\n' % float(coinmarketcap.ticker('IOTA', limit=3, convert='USD')[0]['percent_change_7d'])) 
+
+        file.write('LISK, \t1h: %.2f%% / ' % float(coinmarketcap.ticker('LISK', limit=3, convert='USD')[0]['percent_change_1h'])) 
+        file.write('\t1d: %.2f%% / ' % float(coinmarketcap.ticker('LISK', limit=3, convert='USD')[0]['percent_change_24h'])) 
+        file.write('\t7d: %.2f%%\n' % float(coinmarketcap.ticker('LISK', limit=3, convert='USD')[0]['percent_change_7d'])) 
+
+        file.write('NEM, \t1h: %.2f%% / ' % float(coinmarketcap.ticker('nem', limit=3, convert='USD')[0]['percent_change_1h'])) 
+        file.write('\t1d: %.2f%% / ' % float(coinmarketcap.ticker('nem', limit=3, convert='USD')[0]['percent_change_24h'])) 
+        file.write('\t7d: %.2f%%\n' % float(coinmarketcap.ticker('nem', limit=3, convert='USD')[0]['percent_change_7d'])) 
 
         file.close()
         ftp = FTP('s610.deinprovider.de')
@@ -150,4 +175,4 @@ while True:
     except:
         print('Something went wrong...')
 
-    
+        
