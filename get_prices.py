@@ -37,7 +37,7 @@ def write_prices():
 while True:
     print("Writing current USD prices to CSV...")
     write_prices()
-    time.sleep(30)
+    time.sleep(120)
 
 #except:
 #    print("ERROR")
