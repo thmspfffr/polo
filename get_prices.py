@@ -21,6 +21,7 @@ def write_prices():
 
     labels = ['ARDR','BAT','IOTA','LSK','XEM']
 
+
     df = pd.DataFrame(data=[val] ,index=[t],columns=labels)
     df.index.name = 'Timestamp'
 

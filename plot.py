@@ -8,7 +8,6 @@ from coinmarketcap import Market
 
 coinmarketcap = Market()
 
-
 def poloplot():
 
     balance = np.loadtxt('allTimeCryptoBalance.txt',delimiter='\t')
