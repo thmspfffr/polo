@@ -33,15 +33,16 @@ def write_prices():
         with open('output/prices.csv', 'w') as f:
             df.to_csv(f)
 
-#try:
 
 while True:
-    print("Writing current USD prices to CSV...")
-    write_prices()
-    time.sleep(120)
+    try:
 
-#except:
-#    print("ERROR")
+        print("Writing current USD prices to CSV...")
+        write_prices()
+        time.sleep(120)
+
+    except:
+        print("ERROR")
 
 
 
