@@ -6,6 +6,8 @@ from ftplib import FTP
 from plot import poloplot
 from plot import make_html
 from coinmarketcap import Market
+import polo_correlation as pc
+
 
 all_my_coins = []
 
