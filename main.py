@@ -116,7 +116,7 @@ while True:
 
         coinmarketcap = Market()
         iota_usd = float(coinmarketcap.ticker('IOTA', limit=3, convert='USD')[0]['price_usd'])
-        my_iota_value = 1011 * iota_usd
+        my_iota_value = 1406 * iota_usd
 
         totalValue = totalPoloniexUSDT + totalBittrexUSDT + my_iota_value
 
