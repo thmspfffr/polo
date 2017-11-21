@@ -31,37 +31,37 @@ while True:
         # connect to bittrex
         bittrex_ticker = bittrex('98db5347b4294f4eb85c3c3fc4169d50','6eb9fd8ee7304e209474a7bced944cec')
         
-        myBittrexBalance = bittrex_ticker.getbalances()
+        myBittrexBalance = bittrex_ticker.get_balance()
 
         totalBittrexUSDT = 0
 
         for i in range(0,len(myBittrexBalance)):
 
-            currentCoin = myBittrexBalance[i]
-            coinname = str(currentCoin['Currency'])
+            currentCoin = myBittrexBalance['result'][i]
+            coinname = str(currentCoin['Currency']['Currency'])
 
-            if currentCoin['Balance'] > 5:
+            if currentCoin['Balance']['Balance'] > 5:
 
                 all_my_coins.append(coinname)
 
                 if coinname == 'BTC':
 
-                    currentUSDT = bittrex_ticker.getmarketsummary('USDT-BTC')
-                    currentValueBTCUSDT = currentUSDT[0]['Last']
-                    currentBalance = bittrex_ticker.getbalance(coinname)['Available']
+                    currentUSDT = bittrex_ticker.get_market_summary('USDT-BTC')
+                    currentValueBTCUSDT = float(currentUSDT['result']['Last'])
+                    currentBalance = float(currentCoin['Balance']['Available'])
 
                     currentValueInUSDT =  currentValueBTCUSDT * currentBalance
 
                 else:
 
                     marketname = 'BTC-%s' % (coinname)
-                    currentMarket = bittrex_ticker.getmarketsummary(marketname)
-                    currentValueInBTC = currentMarket[0]['Last']
+                    currentMarket = bittrex_ticker.get_market_summary(marketname)
+                    currentValueInBTC = float(currentMarket['result']['Last'])
 
-                    currentUSDT = bittrex_ticker.getmarketsummary('USDT-BTC')
-                    currentValueBTCUSDT = currentUSDT[0]['Last']
+                    currentUSDT = bittrex_ticker.get_market_summary('USDT-BTC')
+                    currentValueBTCUSDT = float(currentUSDT['result']['Last'])
 
-                    currentBalance = bittrex_ticker.getbalance(coinname)['Balance']
+                    currentBalance = bittrex_ticker.getbalance(coinname)['Balance']['Available']
 
                     currentValueInUSDT =  currentValueBTCUSDT * currentValueInBTC * currentBalance
 
@@ -155,7 +155,7 @@ while True:
         # create plot
         poloplot()
         print('Saved plot ...')
-    
+        
         time.sleep(60)
     except Exception as e: print(e)
         #print('Something went wrong...')
