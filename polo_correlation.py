@@ -1,14 +1,17 @@
 import pandas as pd
 from scipy.stats.stats import pearsonr    
 import numpy as np
+import matplotlib
+
+import matplotlib.pyplot as plt
 
 def get_correlations():
 
-    COINS = ['ARDR','IOTA','LSK']
+    COINS = ['ARDR','BTC','IOTA','LSK','TOTAL_MARKET_CAP']
 
     # one hour / one day / one week
     N = [30, 720, 7*720]
-    r = np.zeros((3,3,3))
+    r = np.zeros((5,5,3))
 
     for idur in range(0,3):
 
@@ -23,6 +26,7 @@ def get_correlations():
 
                 
     return r
+
 
 
 

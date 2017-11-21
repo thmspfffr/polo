@@ -8,7 +8,7 @@ def write_prices():
 
     coinmarketcap = Market()
 
-    coins = ['ARDOR','basic-attention-token','IOTA','lisk','nem']
+    coins = ['ARDOR','Bitcoin','IOTA','lisk']
 
     val = np.zeros(5)
     icoin = 0
@@ -19,8 +19,9 @@ def write_prices():
         val[icoin] = float(coinmarketcap.ticker(coin, limit=3, convert='USD')[0]['price_usd'])
         icoin = icoin + 1
 
-    labels = ['ARDR','BAT','IOTA','LSK','XEM']
+    val[-1] = float(coinmarketcap.stats()['total_market_cap_usd'])
 
+    labels = ['ARDR','BTC','IOTA','LSK','TOTAL']
 
     df = pd.DataFrame(data=[val] ,index=[t],columns=labels)
     df.index.name = 'Timestamp'
