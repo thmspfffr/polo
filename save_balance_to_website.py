@@ -1,6 +1,6 @@
 import poloniex
 import numpy as np
-from bittrex import bittrex
+from bittrex_v2 import Bittrex
 import time
 from ftplib import FTP
 from plot import poloplot
@@ -27,45 +27,44 @@ while True:
 
     try:
         print('Waking ...')
-        
         # connect to bittrex
-        bittrex_ticker = bittrex('98db5347b4294f4eb85c3c3fc4169d50','6eb9fd8ee7304e209474a7bced944cec')
+        bittrex_ticker = Bittrex('98db5347b4294f4eb85c3c3fc4169d50','6eb9fd8ee7304e209474a7bced944cec')
         
         myBittrexBalance = bittrex_ticker.get_balance()
 
         totalBittrexUSDT = 0
 
-        for i in range(0,len(myBittrexBalance)):
+for i in range(0,len(myBittrexBalance['result'])):
 
-            currentCoin = myBittrexBalance['result'][i]
-            coinname = str(currentCoin['Currency']['Currency'])
+    currentCoin = myBittrexBalance['result'][i]
+    coinname = str(currentCoin['Currency']['Currency'])
 
-            if currentCoin['Balance']['Balance'] > 5:
+    if currentCoin['Balance']['Balance'] > 5:
 
-                all_my_coins.append(coinname)
+        all_my_coins.append(coinname)
 
-                if coinname == 'BTC':
+        if coinname == 'BTC':
 
-                    currentUSDT = bittrex_ticker.get_market_summary('USDT-BTC')
-                    currentValueBTCUSDT = float(currentUSDT['result']['Last'])
-                    currentBalance = float(currentCoin['Balance']['Available'])
+            currentUSDT = bittrex_ticker.get_market_summary('USDT-BTC')
+            currentValueBTCUSDT = float(currentUSDT['result']['Last'])
+            currentBalance = float(currentCoin['Balance']['Available'])
 
-                    currentValueInUSDT =  currentValueBTCUSDT * currentBalance
+            currentValueInUSDT =  currentValueBTCUSDT * currentBalance
 
-                else:
+        else:
 
-                    marketname = 'BTC-%s' % (coinname)
-                    currentMarket = bittrex_ticker.get_market_summary(marketname)
-                    currentValueInBTC = float(currentMarket['result']['Last'])
+            marketname = 'BTC-%s' % (coinname)
+            currentMarket = bittrex_ticker.get_market_summary(marketname)
+            currentValueInBTC = float(currentMarket['result']['Last'])
 
-                    currentUSDT = bittrex_ticker.get_market_summary('USDT-BTC')
-                    currentValueBTCUSDT = float(currentUSDT['result']['Last'])
+            currentUSDT = bittrex_ticker.get_market_summary('USDT-BTC')
+            currentValueBTCUSDT = float(currentUSDT['result']['Last'])
 
-                    currentBalance = bittrex_ticker.getbalance(coinname)['Balance']['Available']
+            currentBalance = float(bittrex_ticker.get_balance(coinname)['result']['Balance'])
 
-                    currentValueInUSDT =  currentValueBTCUSDT * currentValueInBTC * currentBalance
+            currentValueInUSDT =  currentValueBTCUSDT * currentValueInBTC * currentBalance
 
-                    current_rate = float(all_my_rates[coinname])
+            current_rate = float(all_my_rates[coinname])
 
                 totalBittrexUSDT =  totalBittrexUSDT + currentValueInUSDT
 
@@ -122,7 +121,7 @@ while True:
 
         totalValue = totalPoloniexUSDT + totalBittrexUSDT + my_iota_value
 
-        totalInvested = 3574 + 601 
+        totalInvested = 3574 + 601 + 1176
 
         totalPercentChange = 100*totalValue/totalInvested-100
 

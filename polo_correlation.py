@@ -24,8 +24,8 @@ def get_correlations():
                 tmp=pearsonr(df[COINS[i]],df[COINS[j]])
                 r[i,j,idur]=tmp[0]
 
-                
-    return r
+                    
+        return r
 
 
 
