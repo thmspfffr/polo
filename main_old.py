@@ -100,7 +100,7 @@ while True:
             otherPrice = float(prices[other]['last'])
 
             if coinname == 'ARDR':
-                otherBalance = 15000 #+ 3618
+                otherBalance = 15000 + 3618
             else:    
                 otherBalance = float(balances[coinname])  
             
@@ -123,7 +123,7 @@ while True:
 
         totalValue = totalPoloniexUSDT + totalBittrexUSDT + my_iota_value
 
-        totalInvested = 3574 + 601 #+ 1176
+        totalInvested = 3574 + 601 + 1176
 
         totalPercentChange = 100*totalValue/totalInvested-100
 
@@ -157,7 +157,7 @@ while True:
         poloplot()
         print('Saved plot ...')
         
-        time.sleep(60)
+        time.sleep(7200)
     except Exception as e: print(e)
         #print('Something went wrong...')
 
