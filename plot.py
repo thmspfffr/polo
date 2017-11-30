@@ -50,7 +50,7 @@ def bar_plot(timescale):
         delta_price.append(val)
         colors.append(all_col[int(val>0)])
 
-    tl = ['ARDR''IOTA','LSK']
+    tl = ['ARDR','IOTA','LSK']
     fig, ax = plt.subplots()
     fig.set_facecolor((1, 1, 1))
     ax.bar([0.5,2,3.5],delta_price,width=1,color=colors,linewidth=0)
@@ -100,7 +100,7 @@ def make_html(totalPercentChange,totalValue):
 
     bar_plot('percent_change_1h')
     file.write('<br>')
-    file.write('<br><IMG src="bar_plot_percent_change_2h.png" height="300" width="400">')  
+    file.write('<br><IMG src="bar_plot_percent_change_1h.png" height="300" width="400">')  
     bar_plot('percent_change_24h')
     file.write('<IMG src="bar_plot_percent_change_24h.png" height="300" width="400">') 
     bar_plot('percent_change_7d')
