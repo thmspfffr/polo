@@ -40,7 +40,7 @@ def bar_plot(timescale):
     Timescale: 'percent_change_1h','percent_change_24h','percent_change_7d'
     """
     all_col = ['r','g']
-    currencies = ['ARDOR','basic-attention-token','IOTA','LISK','NEM']
+    currencies = ['ARDOR','IOTA','LISK']
     delta_price = list()
     colors = list()
 
@@ -50,13 +50,13 @@ def bar_plot(timescale):
         delta_price.append(val)
         colors.append(all_col[int(val>0)])
 
-    tl = ['ARDR','BAT','IOTA','LSK','XEM']
+    tl = ['ARDR''IOTA','LSK']
     fig, ax = plt.subplots()
     fig.set_facecolor((1, 1, 1))
-    ax.bar([0.5,2,3.5,5,6.5],delta_price,width=1,color=colors,linewidth=0)
+    ax.bar([0.5,2,3.5],delta_price,width=1,color=colors,linewidth=0)
 
     ax.set_ylabel('Change [%]')
-    ax.set_xticks([.5,2,3.5,5,6.5])
+    ax.set_xticks([.5,2,3.5])
     ax.set_xticklabels((tl))
 
     if np.max(np.abs(delta_price)) < 5:
@@ -100,7 +100,7 @@ def make_html(totalPercentChange,totalValue):
 
     bar_plot('percent_change_1h')
     file.write('<br>')
-    file.write('<br><IMG src="bar_plot_percent_change_1h.png" height="300" width="400">')  
+    file.write('<br><IMG src="bar_plot_percent_change_2h.png" height="300" width="400">')  
     bar_plot('percent_change_24h')
     file.write('<IMG src="bar_plot_percent_change_24h.png" height="300" width="400">') 
     bar_plot('percent_change_7d')
@@ -114,9 +114,3 @@ def make_html(totalPercentChange,totalValue):
     ftp.cwd('html')
 
     ftp.storbinary('STOR blc.html', open('index.html','rb')  )
-
-
-    #file.write('ARDR, \t1h: %.2f%% ' % float(coinmarketcap.ticker('ARDOR', limit=3, convert='USD')[0]['percent_change_1h'])) 
-    #file.write('\t1d: %.2f%% / ' % float(coinmarketcap.ticker('ARDOR', limit=3, convert='USD')[0]['percent_change_24h'])) 
-    #file.write('\t7d: %.2f%%\n' % float(coinmarketcap.ticker('ARDOR', limit=3, convert='USD')[0]['percent_change_7d'])) 
-    
