@@ -7,8 +7,8 @@ from ftplib import FTP
 from plot import poloplot
 from plot import make_html
 from coinmarketcap import Market
+from reddit_crypto_analysis import get_reddit_subs
 #import polo_correlation as pc
-
 
 all_my_coins = []
 
@@ -75,6 +75,8 @@ while True:
         balances = btc_ticker.returnBalances()
         prices = btc_ticker.returnTicker()
 
+    
+
         b = [float(x) for x in balances.values()]
         IDX = [x for x, i in enumerate(b) if i > 5]
         myCoins =  [balances.keys()[index] for index in IDX]
@@ -113,8 +115,6 @@ while True:
         for x in range(len(myCoins)):
             tmp = tmp + getPrice(myCoins[x], balances, prices)
 
-        #tmp = tmp + getPrice('ARDR', balances, prices) + getPrice('NXT', balances, prices)
-
         totalPoloniexUSDT = tmp
 
         coinmarketcap = Market()
@@ -139,6 +139,8 @@ while True:
         file = open('totalCryptoBalance.txt', 'w')
         file.write('Total value: %d USD\n' % totalValue) 
         if totalPercentChange > 0:
+            file.write('Total percent change: +%.2f%%\n\n' % totalPercentChange) 
+
             file.write('Total percent change: +%.2f%%\n\n' % totalPercentChange) 
         else:
             file.write('Total percent change: %.2f%%\n\n' % totalPercentChange) 
