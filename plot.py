@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from ftplib import FTP
 from coinmarketcap import Market
+from reddit_crypto_analysis import get_reddit_subs
 
 coinmarketcap = Market()
 
@@ -89,18 +90,13 @@ def make_html(totalPercentChange,totalValue):
 
     file = open('index.html', 'w')
     file.write('<HTML>\n<HEAD>\n<TITLE>Ticker</TITLE>') 
-    file.write('<BODY><P><b>Total value:</b> %d USD' % totalValue)  
+    file.write('<BODY><P><u>Total value:</u> %d USD' % totalValue)  
  
-    if totalPercentChange > 0:
-        file.write('<P><b>Total percent change:</b> +%.2f%%' % totalPercentChange) 
-    else:
-        file.write('<P><b>Total percent change:</b> %.2f%%' % totalPercentChange) 
-
-    #file.write('<br><br><IMG src="mybalance.png" height="400" width="500">') 
-
+    file.write('<P><u>Total percent change:</u> %+.2f%%' % totalPercentChange) 
+    file.write('<P><u>Reddit subs:</u> <b>ARDR</b> %+.2f%% <b>IOTA</b> %+.2f%% <b>LISK</b> %+.2f%%'  % (get_reddit_subs('ARDR',6), get_reddit_subs('MIOTA',6), get_reddit_subs('LSK',6))) 
+        
     bar_plot('percent_change_1h')
-    file.write('<br>')
-    file.write('<br><IMG src="bar_plot_percent_change_1h.png" height="300" width="400">')  
+    file.write('<br><br><IMG src="bar_plot_percent_change_1h.png" height="300" width="400">')  
     bar_plot('percent_change_24h')
     file.write('<IMG src="bar_plot_percent_change_24h.png" height="300" width="400">') 
     bar_plot('percent_change_7d')

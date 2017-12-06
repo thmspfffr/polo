@@ -7,8 +7,6 @@ from ftplib import FTP
 from plot import poloplot
 from plot import make_html
 from coinmarketcap import Market
-from reddit_crypto_analysis import get_reddit_subs
-#import polo_correlation as pc
 
 all_my_coins = []
 
@@ -74,8 +72,6 @@ while True:
         btc_ticker = poloniex.Poloniex(API, SEC)
         balances = btc_ticker.returnBalances()
         prices = btc_ticker.returnTicker()
-
-    
 
         b = [float(x) for x in balances.values()]
         IDX = [x for x, i in enumerate(b) if i > 5]
